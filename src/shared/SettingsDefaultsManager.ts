@@ -18,7 +18,7 @@ export interface SettingsDefaults {
   CLAUDE_MEM_WORKER_HOST: string;
   CLAUDE_MEM_SKIP_TOOLS: string;
   // AI Provider Configuration
-  CLAUDE_MEM_PROVIDER: string;  // 'claude' | 'gemini' | 'openrouter'
+  CLAUDE_MEM_PROVIDER: string;  // 'claude' | 'gemini' | 'openrouter' | 'custom_openai'
   CLAUDE_MEM_CLAUDE_AUTH_METHOD: string;  // 'cli' | 'api' - how Claude provider authenticates
   CLAUDE_MEM_GEMINI_API_KEY: string;
   CLAUDE_MEM_GEMINI_MODEL: string;  // 'gemini-2.5-flash-lite' | 'gemini-2.5-flash' | 'gemini-3-flash-preview'
@@ -31,6 +31,13 @@ export interface SettingsDefaults {
   CLAUDE_MEM_OPENROUTER_APP_NAME: string;
   CLAUDE_MEM_OPENROUTER_MAX_CONTEXT_MESSAGES: string;
   CLAUDE_MEM_OPENROUTER_MAX_TOKENS: string;
+  CLAUDE_MEM_CUSTOM_OPENAI_BASE_URL: string;
+  CLAUDE_MEM_CUSTOM_OPENAI_API_KEY: string;
+  CLAUDE_MEM_CUSTOM_OPENAI_MODEL: string;
+  CLAUDE_MEM_CUSTOM_OPENAI_PATH: string;
+  CLAUDE_MEM_CUSTOM_OPENAI_MAX_CONTEXT_MESSAGES: string;
+  CLAUDE_MEM_CUSTOM_OPENAI_MAX_TOKENS: string;
+  CLAUDE_MEM_CUSTOM_OPENAI_TIMEOUT_MS: string;
   // System Configuration
   CLAUDE_MEM_DATA_DIR: string;
   CLAUDE_MEM_LOG_LEVEL: string;
@@ -102,6 +109,13 @@ export class SettingsDefaultsManager {
     CLAUDE_MEM_OPENROUTER_APP_NAME: 'claude-mem',  // App name for OpenRouter analytics
     CLAUDE_MEM_OPENROUTER_MAX_CONTEXT_MESSAGES: '20',  // Max messages in context window
     CLAUDE_MEM_OPENROUTER_MAX_TOKENS: '100000',  // Max estimated tokens (~100k safety limit)
+    CLAUDE_MEM_CUSTOM_OPENAI_BASE_URL: 'http://127.0.0.1:20128/v1',
+    CLAUDE_MEM_CUSTOM_OPENAI_API_KEY: '',
+    CLAUDE_MEM_CUSTOM_OPENAI_MODEL: 'if/kimi-k2-thinking',
+    CLAUDE_MEM_CUSTOM_OPENAI_PATH: '/chat/completions',
+    CLAUDE_MEM_CUSTOM_OPENAI_MAX_CONTEXT_MESSAGES: '20',
+    CLAUDE_MEM_CUSTOM_OPENAI_MAX_TOKENS: '100000',
+    CLAUDE_MEM_CUSTOM_OPENAI_TIMEOUT_MS: '120000',
     // System Configuration
     CLAUDE_MEM_DATA_DIR: join(homedir(), '.claude-mem'),
     CLAUDE_MEM_LOG_LEVEL: 'INFO',

@@ -346,6 +346,7 @@ export function ContextSettingsModal({
                   <option value="claude">Claude (uses your Claude account)</option>
                   <option value="gemini">Gemini (uses API key)</option>
                   <option value="openrouter">OpenRouter (multi-model)</option>
+                  <option value="custom_openai">Custom OpenAI (OmniRoute/LiteLLM)</option>
                 </select>
               </FormField>
 
@@ -447,6 +448,55 @@ export function ContextSettingsModal({
                       value={formState.CLAUDE_MEM_OPENROUTER_APP_NAME || 'claude-mem'}
                       onChange={(e) => updateSetting('CLAUDE_MEM_OPENROUTER_APP_NAME', e.target.value)}
                       placeholder="claude-mem"
+                    />
+                  </FormField>
+                </>
+              )}
+
+              {formState.CLAUDE_MEM_PROVIDER === 'custom_openai' && (
+                <>
+                  <FormField
+                    label="Custom OpenAI Base URL"
+                    tooltip="OpenAI-compatible base URL (OmniRoute: http://127.0.0.1:20128/v1)"
+                  >
+                    <input
+                      type="text"
+                      value={formState.CLAUDE_MEM_CUSTOM_OPENAI_BASE_URL || 'http://127.0.0.1:20128/v1'}
+                      onChange={(e) => updateSetting('CLAUDE_MEM_CUSTOM_OPENAI_BASE_URL', e.target.value)}
+                      placeholder="http://127.0.0.1:20128/v1"
+                    />
+                  </FormField>
+                  <FormField
+                    label="Custom OpenAI API Key"
+                    tooltip="Optional. If gateway requires auth, enter key (or set CUSTOM_OPENAI_API_KEY env var)"
+                  >
+                    <input
+                      type="password"
+                      value={formState.CLAUDE_MEM_CUSTOM_OPENAI_API_KEY || ''}
+                      onChange={(e) => updateSetting('CLAUDE_MEM_CUSTOM_OPENAI_API_KEY', e.target.value)}
+                      placeholder="Enter API key..."
+                    />
+                  </FormField>
+                  <FormField
+                    label="Custom OpenAI Model"
+                    tooltip="Model ID exposed by your gateway (e.g., if/kimi-k2-thinking)"
+                  >
+                    <input
+                      type="text"
+                      value={formState.CLAUDE_MEM_CUSTOM_OPENAI_MODEL || 'if/kimi-k2-thinking'}
+                      onChange={(e) => updateSetting('CLAUDE_MEM_CUSTOM_OPENAI_MODEL', e.target.value)}
+                      placeholder="if/kimi-k2-thinking"
+                    />
+                  </FormField>
+                  <FormField
+                    label="Endpoint Path"
+                    tooltip="OpenAI-compatible endpoint path"
+                  >
+                    <input
+                      type="text"
+                      value={formState.CLAUDE_MEM_CUSTOM_OPENAI_PATH || '/chat/completions'}
+                      onChange={(e) => updateSetting('CLAUDE_MEM_CUSTOM_OPENAI_PATH', e.target.value)}
+                      placeholder="/chat/completions"
                     />
                   </FormField>
                 </>
