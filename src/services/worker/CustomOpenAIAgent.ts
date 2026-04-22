@@ -461,6 +461,7 @@ export class CustomOpenAIAgent {
         messages,
         temperature: 0.3,
         max_tokens: 4096,
+        stream: false,
       }),
       signal: controller.signal,
     }).finally(() => clearTimeout(timeout));
@@ -476,7 +477,20 @@ export class CustomOpenAIAgent {
       throw new Error(`Custom OpenAI API error: ${response.status} - ${errorText}`);
     }
 
-    const data = await response.json() as CustomOpenAIResponse;
+    const responseText = await response.text();
+    let data: CustomOpenAIResponse;
+    try {
+      data = JSON.parse(responseText) as CustomOpenAIResponse;
+    } catch (parseError) {
+      const snippet = responseText.substring(0, 200);
+      logger.error('SDK', 'Custom OpenAI API returned non-JSON response', {
+        url,
+        model,
+        status: response.status,
+        snippet
+      }, parseError instanceof Error ? parseError : new Error(String(parseError)));
+      throw new Error(`Custom OpenAI API returned non-JSON response (status ${response.status}): ${snippet}`);
+    }
 
     // Check for API error in response body
     if (data.error) {

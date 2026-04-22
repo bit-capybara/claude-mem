@@ -731,6 +731,10 @@ export class WorkerService {
           'Gemini API error: 401',
           'Gemini API error: 403',
           'FOREIGN KEY constraint failed',
+          'non-JSON response',
+          'Unexpected token',
+          'Unexpected end of JSON input',
+          'Failed to parse JSON',
         ];
         if (unrecoverablePatterns.some(pattern => errorMessage.includes(pattern))) {
           hadUnrecoverableError = true;

@@ -450,6 +450,7 @@ export class OpenRouterAgent {
         messages,
         temperature: 0.3,  // Lower temperature for structured extraction
         max_tokens: 4096,
+        stream: false,
       }),
     });
 
@@ -458,7 +459,20 @@ export class OpenRouterAgent {
       throw new Error(`OpenRouter API error: ${response.status} - ${errorText}`);
     }
 
-    const data = await response.json() as OpenRouterResponse;
+    const responseText = await response.text();
+    let data: OpenRouterResponse;
+    try {
+      data = JSON.parse(responseText) as OpenRouterResponse;
+    } catch (parseError) {
+      const snippet = responseText.substring(0, 200);
+      logger.error('SDK', 'OpenRouter API returned non-JSON response', {
+        url: OPENROUTER_API_URL,
+        model,
+        status: response.status,
+        snippet
+      }, parseError instanceof Error ? parseError : new Error(String(parseError)));
+      throw new Error(`OpenRouter API returned non-JSON response (status ${response.status}): ${snippet}`);
+    }
 
     // Check for API error in response body
     if (data.error) {
